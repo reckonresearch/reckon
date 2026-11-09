@@ -155,7 +155,7 @@ a counterparty can check it before agreeing to be measured.
 The corpus grows by measurement. If you run a cell we have not,
 [send it](https://docs.reckonresearch.com/verify-and-contribute/).
 
-Six cells across three memory technologies and two vendors are measured today.
+Six measured cells across five accelerators and two vendors are published in `data/measured/`: llama3-8b on L40S, H100 PCIe, H100 SXM, MI300X and A100 (bf16, three memory technologies, NVIDIA and AMD), plus qwen3-30b-a3b on A100. An H100 SXM fp8 variant is included alongside the bf16 cell.
 Everything else in the fleet is a spec-sheet prior, and every line the CLI
 prints says which.
 

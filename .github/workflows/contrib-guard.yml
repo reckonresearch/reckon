@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - "data/contributed/**"
+      - "data/measured/**"
 
 jobs:
   provenance:
@@ -18,4 +19,4 @@ jobs:
           python-version: "3.12"
       - run: pip install -e .
       - name: reject mock or unlabelled traces
-        run: python -m bench.check_contributed data/contributed/
+        run: python -m bench.check_contributed data/contributed/ data/measured/
