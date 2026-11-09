@@ -7,7 +7,7 @@ Published because a measurement tool that has never been caught lying has not
 been used hard enough, and because the failures are more useful to anyone else
 measuring inference than the results are.
 
-**Four let bad data through. Seven rejected good data. Three were correct code that nothing could reach.** An earlier version of
+**Five let bad data through. Seven rejected good data. Three were correct code that nothing could reach. One overstated a cause.** An earlier version of
 this document had those the wrong way round, which understated the more
 serious of the two.
 
@@ -39,6 +39,7 @@ inside documentation warning against it.
 | Ratio | 1 | a constant term left inside a division |
 | Assumption | 9 | a guard that blocked the runs it was written to protect |
 | Units | 10 | a precision assumed rather than read from the file it was in |
+| Units | 17 | a guarded quantity published as a bare number, and misused downstream |
 
 ---
 
@@ -433,6 +434,42 @@ cause.
 
 ---
 
+## 17. A copy ceiling, published bare, used as a read ceiling
+
+**Mechanism:** units. **Direction:** let bad data through.
+
+Defect 5 made it impossible inside the package to treat the device-to-device
+copy figure as a datasheet peak. The corpus then published that same figure as
+a bare number: `bandwidth ceiling: 652 GB/s (d2d copy)` in `microbench.txt`,
+and a single "Microbench BW" column in the corpus datasheet. The type
+distinction did not travel with the number.
+
+The first external analysis of the corpus (2026-11-09, pre-registered) built a
+decode roofline from that column and computed a mismatch tax against it. L40S
+came out negative on all 30 configurations: measured decode beat the ceiling.
+A roofline cannot be beaten. Decode is a pure read stream; a copy's
+interleaved read and write traffic pays bus turnaround and write-allocate
+costs and lands well below it. On L40S the copy reached 652 of 864 GB/s spec;
+the read stream reached over 96%. Against spec bandwidth the same analysis
+was positive everywhere and the cross-card ranking became coherent.
+
+Nothing in the package was wrong. The guard at the call site held and the
+number escaped around it, because a published float carries no type.
+
+**Rule: a quantity that has a guarded type inside the package must carry its
+kind in its name when it leaves the package.** `bw_copy_gbs` cannot be
+mistaken for a read ceiling by a reader who never imported `Ceiling`.
+
+**Fix:** schema 6 publishes `bw_copy_gbs` and `bw_read_gbs` as separate named
+fields, adds a read-only stream microbench for the latter, and the validator
+flags any cell where read is below copy. The unqualified key is deprecated.
+
+**Pinned by:** pending with schema 6. The test asserts that every bandwidth
+figure the corpus exports carries `copy` or `read` in its key, and that the
+datasheet table has no unqualified bandwidth column.
+
+---
+
 ## What actually prevents the next one
 
 **Physical impossibility, not statistical thresholds.** A card cannot exceed
@@ -446,7 +483,9 @@ defects were the same field problem in three different fields.
 
 **Types where two quantities share a shape.** Both unit defects were floats
 handed to a function expecting a different float. They are now impossible at
-the call site rather than detectable afterwards.
+the call site rather than detectable afterwards. Defect 17 showed the limit
+of that: a type protects callers, not readers. The name has to carry the
+kind once the number is published.
 
 **Guard both directions, and test both.** Four of the ten rejected correct
 measurements, and every one had a test for the path it was meant to block and

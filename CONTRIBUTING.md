@@ -17,7 +17,7 @@ pip install berth-placement
 `data/contributed/`. CI runs `python -m bench.check_contributed` and rejects
 any file containing a mock record or any record without explicit provenance.
 If a pull request is awkward, open an issue with the
-[measurement template](https://github.com/reckonresearch/berth/issues/new?template=measurement.md)
+[measurement template](https://github.com/reckonresearch/reckon/issues/new?template=measurement.md)
 and attach it, or email traces@reckonresearch.com.
 
 Send the run conditions alongside the traces. `sounding` writes them to

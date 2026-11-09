@@ -16,10 +16,10 @@ berth place --workload-class voice --model llama3-8b --incumbent h100-pcie --slo
 
 [Docs](https://docs.reckonresearch.com) ·
 [The Placement Index](https://reckonresearch.com/index/) ·
-[Defect register](https://github.com/reckonresearch/berth/blob/main/DEFECTS.md)
+[Defect register](https://github.com/reckonresearch/reckon/blob/main/DEFECTS.md)
 
-[![ci](https://github.com/reckonresearch/berth/actions/workflows/ci.yml/badge.svg)](https://github.com/reckonresearch/berth/actions)
-[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/reckonresearch/berth/blob/main/LICENSE)
+[![ci](https://github.com/reckonresearch/reckon/actions/workflows/ci.yml/badge.svg)](https://github.com/reckonresearch/reckon/actions)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/reckonresearch/reckon/blob/main/LICENSE)
 
 ---
 
@@ -78,6 +78,10 @@ drops first-token error from roughly 65 percent to under 9.
 0.850 under vLLM, same card, same model.
 
 Every trace is downloadable. Every number is reproducible.
+
+A first external analysis of the corpus, pre-registered before it ran, is at
+[mismatch-tax](https://github.com/SidScott1410/mismatch-tax). Its first result
+was Defect 17 below.
 
 ## Quick start
 
@@ -161,14 +165,15 @@ prints says which.
 
 ## When it is wrong
 
-[`DEFECTS.md`](https://github.com/reckonresearch/berth/blob/main/DEFECTS.md) is the register: fourteen instrument failures, what
+[`DEFECTS.md`](https://github.com/reckonresearch/reckon/blob/main/DEFECTS.md) is the register: sixteen instrument failures (numbered to 17), what
 caused each, how it was caught, and the test that fails if it returns.
 
-Four let bad data through. **Seven rejected good data**, which is the more
+Five let bad data through. **Seven rejected good data**, which is the more
 dangerous direction, because a false negative is caught downstream eventually
 and a false positive is silent. One of them nearly discarded the most valuable
 cell in the corpus. **Three were correct code that nothing could reach**, which
-no unit test can catch.
+no unit test can catch. One overstated a cause. The most recent, 17, is Defect 5
+recurring outside the package: the type guard held, the published number did not.
 
 Only physical impossibility refuses a file. Everything else prints and passes.
 
