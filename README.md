@@ -79,7 +79,7 @@ drops first-token error from roughly 65 percent to under 9.
 
 Every trace is downloadable. Every number is reproducible.
 
-A first external analysis of the corpus, pre-registered before it ran, is at
+A first external analysis of the corpus, exploratory rather than pre-registered, is at
 [mismatch-tax](https://github.com/SidScott1410/mismatch-tax). Its first result
 was Defect 17 below.
 
