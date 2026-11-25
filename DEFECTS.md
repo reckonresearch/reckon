@@ -444,7 +444,7 @@ a bare number: `bandwidth ceiling: 652 GB/s (d2d copy)` in `microbench.txt`,
 and a single "Microbench BW" column in the corpus datasheet. The type
 distinction did not travel with the number.
 
-The first external analysis of the corpus (2026-11-09, pre-registered) built a
+The first external analysis of the corpus (2026-11-09, exploratory) built a
 decode roofline from that column and computed a mismatch tax against it. L40S
 came out negative on all 30 configurations: measured decode beat the ceiling.
 A roofline cannot be beaten. Decode is a pure read stream; a copy's
